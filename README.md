@@ -85,7 +85,8 @@ Va falloir chercher comment qu'on lui cause au module et quels pins c'est
 **ATTENDS MOI JE VEUX JOUER AUSSI**
 
 --------------
-![Alt Text](//i.imgflip.com/67k02j.gif)
+![Alt Text](https://c.tenor.com/Dc5SGhuskTUAAAAC/old-guy-falling-down-stairs.gif)  
+
 Quand tu pensais avoir compris ce que j'écrivais et que tu lis la suite
 
 Explication de ma merdasse avec l'enum
