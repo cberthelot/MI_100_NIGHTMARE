@@ -51,17 +51,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=chenillard.c minimal_lcd.c
+SOURCEFILES_QUOTED_IF_SPACED=chenillard.c minimal_lcd.c library.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/chenillard.o ${OBJECTDIR}/minimal_lcd.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/chenillard.o.d ${OBJECTDIR}/minimal_lcd.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/chenillard.o ${OBJECTDIR}/minimal_lcd.o ${OBJECTDIR}/library.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/chenillard.o.d ${OBJECTDIR}/minimal_lcd.o.d ${OBJECTDIR}/library.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/chenillard.o ${OBJECTDIR}/minimal_lcd.o
+OBJECTFILES=${OBJECTDIR}/chenillard.o ${OBJECTDIR}/minimal_lcd.o ${OBJECTDIR}/library.o
 
 # Source Files
-SOURCEFILES=chenillard.c minimal_lcd.c
+SOURCEFILES=chenillard.c minimal_lcd.c library.c
 
 
 CFLAGS=
@@ -112,6 +112,12 @@ ${OBJECTDIR}/minimal_lcd.o: minimal_lcd.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/minimal_lcd.o 
 	@${FIXDEPS} "${OBJECTDIR}/minimal_lcd.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/minimal_lcd.o.d" -o ${OBJECTDIR}/minimal_lcd.o minimal_lcd.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=c99
 	
+${OBJECTDIR}/library.o: library.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/library.o.d 
+	@${RM} ${OBJECTDIR}/library.o 
+	@${FIXDEPS} "${OBJECTDIR}/library.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/library.o.d" -o ${OBJECTDIR}/library.o library.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=c99
+	
 else
 ${OBJECTDIR}/chenillard.o: chenillard.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
@@ -124,6 +130,12 @@ ${OBJECTDIR}/minimal_lcd.o: minimal_lcd.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/minimal_lcd.o.d 
 	@${RM} ${OBJECTDIR}/minimal_lcd.o 
 	@${FIXDEPS} "${OBJECTDIR}/minimal_lcd.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/minimal_lcd.o.d" -o ${OBJECTDIR}/minimal_lcd.o minimal_lcd.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=c99
+	
+${OBJECTDIR}/library.o: library.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/library.o.d 
+	@${RM} ${OBJECTDIR}/library.o 
+	@${FIXDEPS} "${OBJECTDIR}/library.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/library.o.d" -o ${OBJECTDIR}/library.o library.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=c99
 	
 endif
 

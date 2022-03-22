@@ -1,5 +1,5 @@
 #include "config_bits.h"
-#include "config_bits.h"
+#include "library.h"
 #include "minimal_lcd.h"
 #include <stdlib.h>
 
@@ -198,16 +198,6 @@ void __attribute__((interrupt(ipl7soft), vector(40))) fonction_U5R(void) {
         fin_cmd = 1;
     }
 }
-
-void taiter_cmd(void){
-    if (cmd[0] == 'C'){
-        if (cmd[1] == '+'){
-            int number = atoi(cmd[2]);
-            (number < 16) ? LCD_Set_Cursor_Pos(0, number) : LCD_Set_Cursor_Pos(1, number - 16);
-        }
-    }
-}
-
 void main() {
     // variables
     // loop counter    
@@ -248,26 +238,35 @@ void main() {
     U5BRG = 780;
     RPF12R = 0x4;
     U5RXR = 0x9;
-    __asm__("ei");
+    //__asm__("ei");
     //LCD
     LCD_Init(1, 1);
     LCD_Clear();
 
 #define chaine "Bonjour le monde\n\r"
     //char *TX_buf = chaine;
-    
+    begin_led();
+    begin_inter();
+    begin(115200);
     while (1) {
-        if (clignoter) {
+        if (RX_available()){
+            write_led(0xFF);
+        }
+        /*if (clignoter) {
             clignoter=0;
             PORTA = ~PORTA;
         }
         if (fin_cmd){
-            taiter_cmd;
             cpt = 0;
             fin_cmd = 0;
         }
 //        if (U5STA & 1) {
 
 //        }
+    }*/
+
+        //LCD_Write_HEX(read_inters());
+        //write_led(read_inters());
+
     }
 }

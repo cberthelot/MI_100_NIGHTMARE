@@ -18,6 +18,8 @@
                    projectFiles="true">
       <itemPath>chenillard.c</itemPath>
       <itemPath>minimal_lcd.c</itemPath>
+      <itemPath>library.c</itemPath>
+      <itemPath>library.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
