@@ -10,7 +10,11 @@ void begin (int baudRate){
     U3MODE = (1 << 15); //Activation de l'UART (bit 15)
     U3BRG = (BASE_TIMER_FREQ/(16*baudRate)) - 1; //génération du baudRate
     RPC1R = 0x1; //On selectionne le pin de sortie de U3TX (PMODA)
-    U3RXR = 0x10; //On selectionne le pin de sortie de U3RX (PMODA)
+    U3RXR = 0xA; //On selectionne le pin de sortie de U3RX (PMODA)
+    TRISC &= ~(1 << 2);
+    LATC |= (1 << 2);
+    TRISG &= ~(1 << 7);
+    LATG |= (1 << 7);
 }
 
 // Renvoi 1 si buffer de réception avec au minimum 1 char sinon 0
@@ -40,7 +44,7 @@ int print_UART(char toPrint){
         U3TXREG = toPrint; //On remplit le registre U3TXREG
         return 1;
     }
-    return 0; // !!!!!!!!!!!!!!!!!!!!!! modifier le renvoie !!!!!!!!!!!!!!!!!!!!!!!!
+    return 0; 
 }
 
 //Retourne un char si il y en a un dans le buffer de RX

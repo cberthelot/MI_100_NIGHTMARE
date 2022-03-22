@@ -242,16 +242,34 @@ void main() {
     //LCD
     LCD_Init(1, 1);
     LCD_Clear();
+    int cpt =0;
 
 #define chaine "Bonjour le monde\n\r"
     //char *TX_buf = chaine;
     begin_led();
     begin_inter();
     begin(115200);
+    char stock ='B';
+    
     while (1) {
-        if (RX_available()){
+        /*if (RX_available()){
             write_led(0xFF);
+        }*/
+        
+        if (RX_available()){
+            stock = read();
+            print_UART(stock);
+            print_UART('\n');
         }
+        
+        //LCD_Write_Char(RX_buf);
+        /*if (cpt > 31) {
+            LCD_Clear();
+            cpt = 0;
+        }
+        (cpt < 16) ? LCD_Set_Cursor_Pos(0, cpt) : LCD_Set_Cursor_Pos(1, cpt - 16);
+        cpt++;*/
+        
         /*if (clignoter) {
             clignoter=0;
             PORTA = ~PORTA;
@@ -267,6 +285,7 @@ void main() {
 
         //LCD_Write_HEX(read_inters());
         //write_led(read_inters());
+       
 
     }
 }
