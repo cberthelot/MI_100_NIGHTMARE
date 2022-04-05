@@ -1,5 +1,7 @@
 # [MI_100_NIGHTMARE](https://github.com/macgyver3/MI_100_NIGHTMARE)
 
+#10=0x10 c'est évident
+
 Faudra bien expliquer le projet là  
 
 ![aaaa](https://i.imgflip.com/68nvks.jpg)
