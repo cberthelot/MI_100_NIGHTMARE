@@ -238,7 +238,7 @@ void main() {
     U5BRG = 780;
     RPF12R = 0x4;
     U5RXR = 0x9;
-    //__asm__("ei");
+    __asm__("ei");
     //LCD
     LCD_Init(1, 1);
     LCD_Clear();
@@ -255,11 +255,26 @@ void main() {
         /*if (RX_available()){
             write_led(0xFF);
         }*/
+        //char buffer;
+        //itoa(&buffer,read_inters(),10);
+        
+        
+        /* Récupération des données sur intérupteur
+         * char buffer_send = read_inters();
+        print_UART(buffer_send + '0');
+        print_UART('\n');
+        while (read_inters() == buffer_send){}*/
+        
+        
+        
+        
+        
+        
         
         if (RX_available()){
-            stock = read();
-            print_UART(stock);
-            print_UART('\n');
+            //stock = read();
+            //print_UART(stock);
+            //print_UART('\n');
         }
         
         //LCD_Write_Char(RX_buf);
