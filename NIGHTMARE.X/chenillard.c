@@ -88,15 +88,16 @@ int counter_cpy; // temporary copy of the counter
 char i;
 
 
-int clignoter=0;
-int timer3_divider=5;
+int clignoter = 0;
+int timer3_divider = 5;
+
 void __attribute__((interrupt(ipl7soft), vector(12))) fonction_it(void) {
 
     IFS0 = IFS0 & ~(1 << 14);
     if (--timer3_divider == 0) {
         // events run at 10Hz, so we have to divide by 10.
-        timer3_divider = 5;
-    clignoter=1;
+        timer3_divider = 1;
+        clignoter = 1;
     }
     //PORTA = ~PORTA;
 }
@@ -132,22 +133,23 @@ void __attribute__((interrupt(ipl7soft), vector(8))) fonction_it_tris(void) {
     // reset timer2 flag
     IFS0 = IFS0 & ~(1 << 9);
 
-        // increment counter modulo 10000.
-        // FIXME : is testing faster than computing a modulo ???
-        if (counter >= 10000) counter = 0;
+    // increment counter modulo 10000.
+    // FIXME : is testing faster than computing a modulo ???
+    if (counter >= 10000) counter = 0;
 
-        // updates seg_map according to counter
-        counter_cpy = counter;
-        for (i = 0; i < 4; i++) {
-            seg_map[i] = digit_7seg[counter_cpy % 10];
-            counter_cpy /= 10;
-        }
-    
+    // updates seg_map according to counter
+    counter_cpy = counter;
+    for (i = 0; i < 4; i++) {
+        seg_map[i] = digit_7seg[counter_cpy % 10];
+        counter_cpy /= 10;
+    }
+
 }
 char RX_buf;
 char cmd[32];
 int fin_cmd = 0;
 int cpt;
+
 void __attribute__((interrupt(ipl7soft), vector(40))) fonction_U5R(void) {
 
     if (IFS2 && (1 << 5)) {
@@ -155,49 +157,22 @@ void __attribute__((interrupt(ipl7soft), vector(40))) fonction_U5R(void) {
             counter++;
             cpt++;
             RX_buf = U5RXREG;
-            /*if (cpt > 31) {
+            if (cpt > 31) {
                 LCD_Clear();
                 cpt = 0;
             }
             (cpt < 16) ? LCD_Set_Cursor_Pos(0, cpt) : LCD_Set_Cursor_Pos(1, cpt - 16);
             LCD_Write_Char(RX_buf);
-            cpt++;*/
-            /*while (U5STA & (1 << 9)) {
+            cpt++;
+            while (U5STA & (1 << 9)) {
             }
-            U5TXREG = RX_buf;
-            }
-             */
-            IFS2 = IFS2 & ~(1 << 5);
+            print_UART(RX_buf);
         }
-    }
-    /*switch (RX_buf) {
-        case 'C':
-            while (!(U5STA & 1)) {
-            }
-            RX_buf = U5RXREG;
-            if (RX_buf == '+');
-            else break;
-            int i = 0;
-            while (RX_buf != ';') {
-                while (!(U5STA & 1)) {
-                }
-                cmd[i] = U5RXREG;
-                i++;
-                if (i > 1)break;
-            }
-            (cmd < 16) ? LCD_Set_Cursor_Pos(0, cmd) : LCD_Set_Cursor_Pos(1, cmd - 16);
-            break;
 
-        default:
-            break;
-    }*/
-    if(RX_buf != ';'){
-        cmd[cpt] = RX_buf;
-    }
-    else{
-        fin_cmd = 1;
+        IFS2 = IFS2 & ~(1 << 5);
     }
 }
+
 void main() {
     // variables
     // loop counter    
@@ -227,7 +202,7 @@ void main() {
     IPC1 = IPC1 | 0x1F;
     IPC2 = IPC2 | 0x1F;
     IEC2 = IEC2 | 1 << 5; // interuption U5 receive
-    IEC2 = IEC2 & ~(1 << 4 | 1 << 6); 
+    IEC2 = IEC2 & ~(1 << 4 | 1 << 6);
     IPC10 = IPC10 | 0x1F;
 
     // loop
@@ -235,57 +210,52 @@ void main() {
     //UART
     U5STA = (1 << 12) | (1 << 10);
     U5MODE = (1 << 15);
-    U5BRG = 780;
+    U5BRG = (120000000 / (16 * 115200)) - 1;
+    ;
     RPF12R = 0x4;
     U5RXR = 0x9;
-    //__asm__("ei");
+    __asm__("ei");
     //LCD
     LCD_Init(1, 1);
     LCD_Clear();
-    int cpt =0;
+    int cpt = 0;
 
+    for (int i = 0; i < 8; i++)
+        U5TXREG = '-';
 #define chaine "Bonjour le monde\n\r"
     //char *TX_buf = chaine;
     begin_led();
     begin_inter();
     begin(115200);
-    char stock ='B';
-    
+
+    U5TXREG = 'A';
+    wait_timer2();
+    U5TXREG = 'A';
+    U5TXREG = '\n';
+    U5TXREG = '\r';
+
+    begin_BL(1);
+
+    char buffer=0;
+
     while (1) {
-        /*if (RX_available()){
-            write_led(0xFF);
-        }*/
-        
-        if (RX_available()){
-            stock = read();
-            print_UART(stock);
-            print_UART('\n');
+        if(U3STA & (1<<1)) U3STA &=U3STA & ~(1<<1);
+        if (RX_available()) {
+            
+            buffer = read();
+            U5TXREG = 'a'+buffer;
+            U5TXREG='|';
+            write_led(buffer);
+            
         }
-        
-        //LCD_Write_Char(RX_buf);
-        /*if (cpt > 31) {
-            LCD_Clear();
-            cpt = 0;
-        }
-        (cpt < 16) ? LCD_Set_Cursor_Pos(0, cpt) : LCD_Set_Cursor_Pos(1, cpt - 16);
-        cpt++;*/
-        
-        /*if (clignoter) {
+
+        if (clignoter) {
             clignoter=0;
-            PORTA = ~PORTA;
+            U5TXREG='@';
+            print_UART(read_inters());
         }
-        if (fin_cmd){
-            cpt = 0;
-            fin_cmd = 0;
-        }
-//        if (U5STA & 1) {
 
-//        }
-    }*/
 
-        //LCD_Write_HEX(read_inters());
-        //write_led(read_inters());
-       
 
     }
 }

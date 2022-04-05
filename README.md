@@ -1,6 +1,6 @@
 # [MI_100_NIGHTMARE](https://github.com/macgyver3/MI_100_NIGHTMARE)
 
-#10=0x10 c'est évident
+## 10=0x10 c'est évident
 
 Faudra bien expliquer le projet là  
 
@@ -11,7 +11,7 @@ Faudra bien expliquer le projet là
 Dans le reste faire attention sur le code de retour des fonctions ``1 == Succès`` ET  ``0 == Erreur``
 
 On pourra ajouter un `` enum `` pour être plus précis dans l'erreur à passer en temps que pointeur aux fonctions. *Je l'explique plus loins tkt*
- - [ ] API Serial complète sans ``enum`` erreur
+ - [x] API Serial complète sans ``enum`` erreur
  - [ ] ``enum`` erreur fait
  - [ ] Fonctions interrupteur et LEDs
 
