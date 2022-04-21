@@ -5,6 +5,8 @@
 *.aab
 
 NIGHTMARE.X/nbproject
+*.properties
+*.mk
 
 
 # Files for the ART/Dalvik VM
