@@ -140,7 +140,7 @@ void __attribute__((interrupt(ipl7soft), vector(8))) fonction_it_tris(void) {
 
     // updates seg_map according to counter
 
-    
+
     counter_cpy = nb_trame;
 
     for (i = 0; i < 4; i++) {
@@ -177,16 +177,22 @@ void __attribute__((interrupt(ipl7soft), vector(40))) fonction_U5R(void) {
     }
 }
 
-int foo() {
-    print_UART(15);
+typedef struct BT {
+    int (*print)(unsigned char *);
+    int (*connect)(unsigned char *);
+    int (*begin_struct)(int *);
+    int (*RX_available)();
+    int (*TX_available)();
+    void (*flush)();
+    char (*read)();
+} BT;
+
+/*
+int foo(unsigned char a) {
+    print_UART(a);
     return 0;
 }
-
-typedef struct test {
-    int (*send)(void);
-} test;
-
-
+ */
 
 
 void main() {
@@ -227,11 +233,11 @@ void main() {
     U5STA = (1 << 12) | (1 << 10);
     U5MODE = (1 << 15);
     U5BRG = (120000000 / (16 * 115200)) - 1;
-    
+
     //LCD
     LCD_Init(1, 1);
     LCD_Clear();
-    
+
     RPF12R = 0x4;
     U5RXR = 0x9;
     __asm__("ei");
@@ -246,8 +252,18 @@ void main() {
     //char *TX_buf = chaine;
     begin_led();
     begin_inter();
-    begin(115200);
+    //begin(115200);
 
+    BT SerialBT;
+    SerialBT.print = &print_UART;
+    SerialBT.begin_struct = &begin;
+    SerialBT.RX_available = &RX_available;
+    SerialBT.TX_available = &TX_available;
+    SerialBT.flush = &flush;
+    SerialBT.read = &read;
+
+
+    SerialBT.begin_struct(115200);
     U5TXREG = 'A';
     wait_timer2();
     U5TXREG = 'A';
@@ -257,28 +273,27 @@ void main() {
 
     begin_BL_fast(1);// 1 = master
 
-    char buffer=0;
 
-    //struct test letest;
-    //letest.send=&foo;
+    char buffer = 0;
+
     while (1) {
-        if(U3STA & (1<<1)) U3STA &=U3STA & ~(1<<1);
-        if (nb_trame == 1000)
+        if (U3STA & (1 << 1)) U3STA &= U3STA & ~(1 << 1);
+        if (nb_trame == 10000)
             nb_trame = 0;
         if (RX_available()) {
-            
+
             buffer = read();
             nb_trame++;
-            U5TXREG = 'a'+buffer;
-            U5TXREG='|';
+            U5TXREG = 'a' + buffer;
+            U5TXREG = '|';
             write_led(buffer);
-            
+
         }
-        
+
         if (clignoter) {
-            clignoter=0;
-            U5TXREG='@';
-            //letest.send();
+            clignoter = 0;
+            U5TXREG = '@';
+            SerialBT.print(read_inters());
             //print_UART(read_inters());
         }
 
