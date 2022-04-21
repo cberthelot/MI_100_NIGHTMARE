@@ -24,6 +24,7 @@
 // indexed access to mask and register of 7 seg display anodes
 const uint32_t SEG7_AFF_MASK[4] = {MASK_AN0, MASK_AN1, MASK_AN2, MASK_AN3};
 volatile uint32_t *SEG7_AFF_LAT[4] = {&LATB, &LATB, &LATA, &LATA};
+//int nb_trame = 0;
 
 // indexed access to mask and register of 7 seg display segemnts
 // 0:seg a, 1:seg b, .... 6:seg g, 7:point
@@ -234,21 +235,23 @@ void main() {
     U5TXREG = '\n';
     U5TXREG = '\r';
 
-    begin_BL(1);
+    begin_BL(0);
 
     char buffer=0;
-
     while (1) {
         if(U3STA & (1<<1)) U3STA &=U3STA & ~(1<<1);
+        //if (nb_trame == 1000)
+            //nb_trame = 0;
         if (RX_available()) {
             
             buffer = read();
+            //nb_trame++;
             U5TXREG = 'a'+buffer;
             U5TXREG='|';
             write_led(buffer);
             
         }
-
+        
         if (clignoter) {
             clignoter=0;
             U5TXREG='@';

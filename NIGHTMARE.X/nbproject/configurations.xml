@@ -20,6 +20,8 @@
       <itemPath>minimal_lcd.c</itemPath>
       <itemPath>library.c</itemPath>
       <itemPath>library.h</itemPath>
+      <itemPath>periph.c</itemPath>
+      <itemPath>periph.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -40,8 +42,8 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>PK3OBPlatformTool</platformTool>
         <languageToolchain>XC32</languageToolchain>
-        <languageToolchainVersion>4.00</languageToolchainVersion>
-        <platform>3</platform>
+        <languageToolchainVersion>2.50</languageToolchainVersion>
+        <platform>2</platform>
       </toolsSet>
       <compileType>
         <linkerTool>
