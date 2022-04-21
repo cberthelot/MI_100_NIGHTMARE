@@ -88,3 +88,5 @@ lint/generated/
 lint/outputs/
 lint/tmp/
 # lint/reports/
+NIGHTMARE.X/nbproject/private/private.xml
+NIGHTMARE.X/nbproject/private/private.xml
