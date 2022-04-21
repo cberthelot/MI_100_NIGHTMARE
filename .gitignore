@@ -88,3 +88,16 @@ lint/generated/
 lint/outputs/
 lint/tmp/
 # lint/reports/
+NIGHTMARE.X/nbproject/private/private.xml
+NIGHTMARE.X/nbproject/private/private.xml
+NIGHTMARE.X/dist/default/production/NIGHTMARE.X.production.hex
+NIGHTMARE.X/dist/default/production/NIGHTMARE.X.production.hex
+NIGHTMARE.X/dist/default/production/NIGHTMARE.X.production.map
+NIGHTMARE.X/nbproject/private/configurations.xml
+NIGHTMARE.X/dist/default/production/NIGHTMARE.X.production.map
+NIGHTMARE.X/dist/default/production/NIGHTMARE.X.production.elf
+NIGHTMARE.X/nbproject/private/configurations.xml
+*.o
+*.xml
+*.mk
+*.o

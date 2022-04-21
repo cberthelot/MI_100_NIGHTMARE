@@ -111,6 +111,7 @@ unsigned char read_inter(int number) {
     switch (number) {
         case 0:
             value_switch = PORTFbits.RF3;
+            ;
             break;
         case 1:
             value_switch = PORTFbits.RF5;
@@ -227,12 +228,12 @@ int begin_BL(int master) {
 
 int begin_BL_fast(int master) {
 
-    U5TXREG = '5';
     if (master) {
         U5TXREG = '0';
         char buff[8] = "$$$";
         print_UART_n(buff, 3);
         wait_timer2_bis();
+        
         while (!TX_available());
         char big_buff[15] = "C,682719F908BD\r";
         print_UART_n(big_buff, 15);

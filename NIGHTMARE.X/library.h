@@ -9,6 +9,7 @@
 #define _UART_LIBRARY
 void begin (int baudRate);
 int begin_BL(int master);
+int begin_BL_fast(int master);
 int RX_available();
 int TX_available();
 void flush();
