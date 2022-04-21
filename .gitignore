@@ -96,3 +96,7 @@ NIGHTMARE.X/dist/default/production/NIGHTMARE.X.production.map
 NIGHTMARE.X/nbproject/private/configurations.xml
 NIGHTMARE.X/dist/default/production/NIGHTMARE.X.production.map
 NIGHTMARE.X/dist/default/production/NIGHTMARE.X.production.elf
+NIGHTMARE.X/nbproject/private/configurations.xml
+*.o
+*.xml
+*.mk

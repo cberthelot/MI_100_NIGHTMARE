@@ -225,3 +225,25 @@ int begin_BL(int master) {
     }
     return 1;
 }
+
+int begin_BL_fast(int master) {
+
+    if (master) {
+        U5TXREG = '0';
+        char buff[8] = "$$$";
+        print_UART_n(buff, 3);
+        wait_timer2_bis();
+        
+        while (!TX_available());
+        char big_buff[15] = "C,682719F908BD\r";
+        print_UART_n(big_buff, 15);
+    }
+    U5TXREG = '*';
+    
+    while (RX_available())
+    {
+        if(U3STA & (1<<1)) U3STA &=U3STA & ~(1<<1);
+        U5TXREG = read();
+    }
+    return 1;
+}
