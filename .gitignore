@@ -100,3 +100,4 @@ NIGHTMARE.X/nbproject/private/configurations.xml
 *.o
 *.xml
 *.mk
+*.o
