@@ -24,7 +24,7 @@
 // indexed access to mask and register of 7 seg display anodes
 const uint32_t SEG7_AFF_MASK[4] = {MASK_AN0, MASK_AN1, MASK_AN2, MASK_AN3};
 volatile uint32_t *SEG7_AFF_LAT[4] = {&LATB, &LATB, &LATA, &LATA};
-//int nb_trame = 0;
+int nb_trame = 0;
 
 // indexed access to mask and register of 7 seg display segemnts
 // 0:seg a, 1:seg b, .... 6:seg g, 7:point
@@ -139,6 +139,7 @@ void __attribute__((interrupt(ipl7soft), vector(8))) fonction_it_tris(void) {
     if (counter >= 10000) counter = 0;
 
     // updates seg_map according to counter
+
     if (cpt > 31) {
 		LCD_Clear();
         cpt = 0;
@@ -148,6 +149,7 @@ void __attribute__((interrupt(ipl7soft), vector(8))) fonction_it_tris(void) {
         
     LCD_Write_HEX(67)
     counter_cpy = nb_trame;
+
     for (i = 0; i < 4; i++) {
         seg_map[i] = digit_7seg[counter_cpy % 10];
         counter_cpy /= 10;
@@ -181,6 +183,18 @@ void __attribute__((interrupt(ipl7soft), vector(40))) fonction_U5R(void) {
         IFS2 = IFS2 & ~(1 << 5);
     }
 }
+
+int foo() {
+    print_UART(15);
+    return 0;
+}
+
+typedef struct test {
+    int (*send)(void);
+} test;
+
+
+
 
 void main() {
     // variables
@@ -252,14 +266,16 @@ void main() {
 
     char buffer=0;
 
+    struct test letest;
+    letest.send=&foo;;
     while (1) {
         if(U3STA & (1<<1)) U3STA &=U3STA & ~(1<<1);
-        //if (nb_trame == 1000)
-            //nb_trame = 0;
+        if (nb_trame == 1000)
+            nb_trame = 0;
         if (RX_available()) {
             
             buffer = read();
-            //nb_trame++;
+            nb_trame++;
             U5TXREG = 'a'+buffer;
             U5TXREG='|';
             write_led(buffer);
@@ -269,7 +285,8 @@ void main() {
         if (clignoter) {
             clignoter=0;
             U5TXREG='@';
-            print_UART(read_inters());
+            letest.send();
+            //print_UART(read_inters());
         }
 
 
