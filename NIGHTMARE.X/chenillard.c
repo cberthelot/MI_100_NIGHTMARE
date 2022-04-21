@@ -127,7 +127,7 @@ void __attribute__((interrupt(ipl7soft), vector(4))) fonction_it_bis(void) {
         }
     }
 }
-
+int cpt=0;
 void __attribute__((interrupt(ipl7soft), vector(8))) fonction_it_tris(void) {
 
 
@@ -139,7 +139,15 @@ void __attribute__((interrupt(ipl7soft), vector(8))) fonction_it_tris(void) {
     if (counter >= 10000) counter = 0;
 
     // updates seg_map according to counter
-    counter_cpy = counter;
+    if (cpt > 31) {
+		LCD_Clear();
+        cpt = 0;
+        }
+        (cpt < 16) ? LCD_Set_Cursor_Pos(0, cpt) : LCD_Set_Cursor_Pos(1, cpt - 16);
+        cpt++;
+        
+    LCD_Write_HEX(67)
+    counter_cpy = nb_trame;
     for (i = 0; i < 4; i++) {
         seg_map[i] = digit_7seg[counter_cpy % 10];
         counter_cpy /= 10;
@@ -212,7 +220,11 @@ void main() {
     U5STA = (1 << 12) | (1 << 10);
     U5MODE = (1 << 15);
     U5BRG = (120000000 / (16 * 115200)) - 1;
-    ;
+    
+    //LCD
+    LCD_Init(1, 1);
+    LCD_Clear();
+    
     RPF12R = 0x4;
     U5RXR = 0x9;
     __asm__("ei");
@@ -236,7 +248,7 @@ void main() {
     U5TXREG = '\r';
 
 
-    begin_BL_fast(1 );// 1 = master
+    begin_BL_fast(1);// 1 = master
 
     char buffer=0;
 
