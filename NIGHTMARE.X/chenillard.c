@@ -173,10 +173,22 @@ void __attribute__((interrupt(ipl7soft), vector(40))) fonction_U5R(void) {
     }
 }
 
+
+
+
+
+typedef struct hello {
+    int (*foo)(unsigned char *);
+} hello;
+
+int foo(unsigned char a){
+    write_led(a);
+    return 1;
+}
 void main() {
     // variables
     // loop counter    
-
+    
     // Initialization
     init_7seg();
 
@@ -234,10 +246,10 @@ void main() {
     U5TXREG = '\n';
     U5TXREG = '\r';
 
-    begin_BL(1);
+    begin_BL_fast(0);// 1 = master
 
     char buffer=0;
-
+    
     while (1) {
         if(U3STA & (1<<1)) U3STA &=U3STA & ~(1<<1);
         if (RX_available()) {
