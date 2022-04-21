@@ -127,7 +127,7 @@ void __attribute__((interrupt(ipl7soft), vector(4))) fonction_it_bis(void) {
         }
     }
 }
-int cpt=0;
+
 void __attribute__((interrupt(ipl7soft), vector(8))) fonction_it_tris(void) {
 
 
@@ -140,14 +140,7 @@ void __attribute__((interrupt(ipl7soft), vector(8))) fonction_it_tris(void) {
 
     // updates seg_map according to counter
 
-    if (cpt > 31) {
-		LCD_Clear();
-        cpt = 0;
-        }
-        (cpt < 16) ? LCD_Set_Cursor_Pos(0, cpt) : LCD_Set_Cursor_Pos(1, cpt - 16);
-        cpt++;
-        
-    LCD_Write_HEX(67)
+    
     counter_cpy = nb_trame;
 
     for (i = 0; i < 4; i++) {
@@ -266,8 +259,8 @@ void main() {
 
     char buffer=0;
 
-    struct test letest;
-    letest.send=&foo;;
+    //struct test letest;
+    //letest.send=&foo;
     while (1) {
         if(U3STA & (1<<1)) U3STA &=U3STA & ~(1<<1);
         if (nb_trame == 1000)
@@ -285,10 +278,9 @@ void main() {
         if (clignoter) {
             clignoter=0;
             U5TXREG='@';
-            letest.send();
+            //letest.send();
             //print_UART(read_inters());
         }
-
 
 
     }
