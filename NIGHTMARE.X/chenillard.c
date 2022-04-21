@@ -236,7 +236,7 @@ void main() {
     U5TXREG = '\r';
 
 
-    begin_BL_fast(1);// 1 = master
+    begin_BL_fast(1 );// 1 = master
 
     char buffer=0;
 
